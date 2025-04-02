@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Client; // Import the Client model
+use App\Models\User; // Import the User model
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -21,7 +23,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        $clients = Client::all(); // Assuming you have a Client model
+        $users = User::all(); // Assuming you have a User model
+        return view('projects.create', compact('clients', 'users'));
     }
 
     /**
@@ -29,7 +33,21 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'client_id' => 'required|exists:clients,id',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'deadline' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|in:pending,in_progress,completed',
+            'priority' => 'required|in:low,medium,high',
+        ]);
+
+        Project::create($request->all());
+
+        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
     /**
@@ -45,7 +63,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $clients = Client::all(); // Assuming you have a Client model
+        $users = User::all(); // Assuming you have a User model
+        return view('projects.edit', compact('project', 'clients', 'users'));
     }
 
     /**
@@ -53,7 +73,21 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'client_id' => 'required|exists:clients,id',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'deadline' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|in:pending,in_progress,completed',
+            'priority' => 'required|in:low,medium,high',
+        ]);
+
+        $project->update($request->all());
+
+        return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
     /**
@@ -61,6 +95,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
     }
 }

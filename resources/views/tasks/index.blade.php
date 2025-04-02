@@ -12,8 +12,8 @@
                         {{ __("You're logged in!") }}
                     </div>
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h2 class="text-xl font-semibold mb-4">Projects</h2>
-                        <a href="{{ route('clients.create') }}" class="block w-40 text-center bg-blue-500 text-white my-3 px-4 py-2 rounded">Add New Task</a>
+                        <h2 class="text-xl font-semibold mb-4">Tasks</h2>
+                        <a href="{{ route('tasks.create') }}" class="block w-40 text-center bg-blue-500 text-white my-3 px-4 py-2 rounded">Add New Task</a>
                         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                             <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <tr>
@@ -34,8 +34,8 @@
                                         <td class="py-3 px-6 text-center">{{ $task->project_id }}</td>
                                         <td class="py-3 px-6 text-center">{{ $task->status }}</td>
                                         <td class="py-3 px-6 text-center">
-                                            <a href="{{ route('clients.edit', $task) }}" class="bg-blue-500 text-white my-3 px-3 py-1 rounded">Edit</a>
-                                            <form method="POST" action="{{ route('clients.destroy', $task) }}" class="my-3">
+                                            <a href="{{ route('tasks.edit', $task) }}" class="bg-blue-500 text-white my-3 px-3 py-1 rounded">Edit</a>
+                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="my-3">
                                                 @csrf
                                                 @method('DELETE')
 

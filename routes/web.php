@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::resource('/clients', ClientController::class)->middleware(['auth', 'verified'])->names('clients');
 Route::resource('/projects', ProjectController::class)->middleware(['auth', 'verified'])->names('projects');
-Route::get('/tasks', [TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('tasks.index');
+Route::resource('/tasks', TaskController::class)->middleware(['auth', 'verified'])->names('tasks');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
